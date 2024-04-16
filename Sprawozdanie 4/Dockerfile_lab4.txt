@@ -1,0 +1,14 @@
+FROM ubuntu:latest
+# Ustawienie autora
+LABEL rg.opencontainers.image.authors="Krystian Krukowski <Krystian.Krukowski@protonmail.com"
+# Aktualizacja systemu i instalacja serwera Apache
+RUN apt-get update && apt-get upgrade -y && apt-get install -y apache2
+# Skopiowanie plikow strony
+COPY index.html /var/www/html
+# Skopiowanie plikow apache
+COPY ports.conf /etc/apache2/ports.conf
+COPY 000-default.conf /etc/apache2/sites-enabled/000-default.conf
+# Komunikat odnosnie wystawionego portu
+EXPOSE 8080
+# Wlaczenie serwera Apache
+CMD [ "apache2ctl", "-D", "FOREGROUND" ]
